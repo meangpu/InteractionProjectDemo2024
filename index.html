@@ -15,20 +15,21 @@
     <title>InteractionDemo</title>
     <meta name="description" content="a interaction project demo for student" />
     <meta property="og:title" content="InteractionDemo" />
-    <meta property="og:description" content="a interaction project demo for student" />
-    <meta property="og:image" content="https://raw.githubusercontent.com/meangpu/InteractionProjectDemo2024/main/preview.png" />
+    <meta
+      property="og:description"
+      content="a interaction project demo for student"
+    />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/meangpu/InteractionProjectDemo2024/main/preview.png"
+    />
     <link rel="stylesheet" href="TemplateData/style.css" />
     <link rel="icon" href="TemplateData/favicon.png" />
     <link rel="apple-touch-icon" href="TemplateData/ios_icon.png" />
   </head>
   <body>
     <div id="unity-container">
-      <canvas
-        id="unity-canvas"
-        width="1920"
-        height="1080"
-        tabindex="-1"
-      ></canvas>
+      <canvas id="unity-canvas"></canvas>
     </div>
     <div id="loading-cover">
       <div id="unity-loading-bar">
@@ -42,56 +43,61 @@
       </div>
     </div>
     <script>
-            const buildUrl = "Build";
-            const loaderUrl = buildUrl + "/InteractionProjectDemo2024.loader.js";
-            const config = {
-              dataUrl: buildUrl + "/InteractionProjectDemo2024.data.unityweb",
-              frameworkUrl: buildUrl + "/InteractionProjectDemo2024.framework.js.unityweb",
-              codeUrl: buildUrl + "/InteractionProjectDemo2024.wasm.unityweb",
-              streamingAssetsUrl: "StreamingAssets",
-              companyName: "meangpu",
-              productName: "InteractionDemo",
-              productVersion: "0.23-7-Oct-2024 11:54 PM",
-            };
+      const buildUrl = "Build";
+      const loaderUrl = buildUrl + "/InteractionProjectDemo2024.loader.js";
+      const config = {
+        dataUrl: buildUrl + "/InteractionProjectDemo2024.data.unityweb",
+        frameworkUrl:
+          buildUrl + "/InteractionProjectDemo2024.framework.js.unityweb",
+        codeUrl: buildUrl + "/InteractionProjectDemo2024.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "meangpu",
+        productName: "InteractionDemo",
+        productVersion: "0.23-7-Oct-2024 11:54 PM",
+      };
 
-            const container = document.querySelector("#unity-container");
-            const canvas = document.querySelector("#unity-canvas");
-            const loadingCover = document.querySelector("#loading-cover");
-            const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
-            const progressBarFull = document.querySelector("#unity-progress-bar-full");
-            const spinner = document.querySelector('.spinner');
-            // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            // if(isMobile) {}
+      const container = document.querySelector("#unity-container");
+      const canvas = document.querySelector("#unity-canvas");
+      const loadingCover = document.querySelector("#loading-cover");
+      const progressBarEmpty = document.querySelector(
+        "#unity-progress-bar-empty"
+      );
+      const progressBarFull = document.querySelector(
+        "#unity-progress-bar-full"
+      );
+      const spinner = document.querySelector(".spinner");
+      // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      // if(isMobile) {}
 
+      loadingCover.style.display = "";
 
+      const script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          spinner.style.display = "none";
+          progressBarEmpty.style.display = "";
+          progressBarFull.style.width = `${100 * progress}%`;
+        })
+          .then((unityInstance) => {
+            loadingCover.style.display = "none";
+          })
+          .catch((message) => {
+            alert(message);
+          });
+      };
 
-            loadingCover.style.display = "";
+      document.body.appendChild(script);
 
-            const script = document.createElement("script");
-            script.src = loaderUrl;
-            script.onload = () => {
-              createUnityInstance(canvas, config, (progress) => {
-                spinner.style.display = "none";
-                progressBarEmpty.style.display = "";
-                progressBarFull.style.width = `${100 * progress}%`;
-              }).then((unityInstance) => {
-                loadingCover.style.display = "none";
-              }).catch((message) => {
-                alert(message);
-              });
-            };
+      function handleResize() {
+        const canvas = document.querySelector("#unity-canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
 
-            document.body.appendChild(script);
-
-            function handleResize() {
-              const canvas = document.querySelector("#unity-canvas");
-              canvas.width = window.innerWidth;
-              canvas.height = window.innerHeight;
-            }
-
-            window.addEventListener('resize', handleResize);
-            window.addEventListener('orientationchange', handleResize);
-            handleResize();
+      window.addEventListener("resize", handleResize);
+      window.addEventListener("orientationchange", handleResize);
+      handleResize();
     </script>
   </body>
 </html>
