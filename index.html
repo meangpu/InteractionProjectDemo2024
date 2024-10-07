@@ -66,8 +66,12 @@
         "#unity-progress-bar-full"
       );
       const spinner = document.querySelector(".spinner");
-      // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      // if(isMobile) {}
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        container.className = "unity-mobile";
+        config.devicePixelRatio = 1;
+      }
 
       loadingCover.style.display = "";
 
