@@ -69,7 +69,7 @@
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
       if (isMobile) {
-        container.className = "unity-mobile";
+        config.devicePixelRatio = 2;
       }
 
       loadingCover.style.display = "";
